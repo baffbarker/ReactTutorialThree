@@ -1,0 +1,31 @@
+{
+  "name": "reacttutorial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3",
+    "server": "^1.0.29"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"cd server && PORT=4000 nodemon start\" \"cd client && npm start\" ",
+    "server": "cd server; nodemon start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caveofprogramming/ReactTutorial.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/caveofprogramming/ReactTutorial/issues"
+  },
+  "homepage": "https://github.com/caveofprogramming/ReactTutorial#readme"
+}
