@@ -2,9 +2,28 @@ import React from 'react';
 import './Book.css';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import FlashMessage from './FlashMessage';
+
 
 class Book extends React.Component { 
     
+        validation = {
+            author: {
+                rule: /^\S.{0,48}\S$/,
+                message: 'Author field must have 2-50 characters'
+            },
+
+            title: {
+                rule: /^\S.{0,68}\S$/,
+                message: 'Title field must have 2-70 characters'
+                },    
+
+            published: {
+                rule: /^\d{4}$/,
+                message: 'Published date must be a 4-digit year'
+                }
+
+        }
         constructor(props) {
             super(props);
 
@@ -12,13 +31,37 @@ class Book extends React.Component {
                 author: "",
                 title:  '',
                 published: '',
+                submitAttempts: 0,
             }
 
             this.handleChange = this.handleChange.bind(this);
             this.handleSubmit = this.handleSubmit.bind(this);
         }
 
+        validate() {
+            
+            for(let field in this.validation) {
+                const rule = this.validation[field].rule;
+                const message = this.validation[field].message;
+                const value = this.state[field];
+
+                if(!value.match(rule)) {   
+                    this.setState({ message: message, submitAttempts: this.state.submitAttempts + 1 });                 
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+       
+
         handleSubmit(event) {
+
+            event.preventDefault();
+            if(!this.validate()) {
+                return;
+            }
             let {author, title, published } = this.state;
             
             published += '-01-01';
@@ -38,7 +81,7 @@ class Book extends React.Component {
                 });
 
 
-            event.preventDefault();
+  
         }
 
         handleChange(event) {
@@ -66,9 +109,10 @@ class Book extends React.Component {
                         <label htmlFor="published">Published:</label>
                         <input value={this.state.published} onChange={this.handleChange} type="text" name ="published" id="published"/>
                         <input type="submit" value="Save" />
-
+                       <FlashMessage key={this.state.submitAttempts} message={this.state.message} duration='3000'/>
 
                     </form>
+
 
                 </div>
             );
